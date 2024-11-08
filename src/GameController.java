@@ -44,6 +44,11 @@ public class GameController implements MouseListener, MouseMotionListener {
 	private void endGame() {
 		// 게임 종료 메소드
 		gameTimer.stop();	// 타이머 중지
+
+		// 피드백 다이얼로그 생성 및 표시 
+		FeedbackDialog feedbackDialog = new FeedbackDialog(gameFrame, gameModel.getIncorrectItems());
+		feedbackDialog.setVisible(true);
+		
 		// 메시지 다이얼로그로 최종 점수 표시,
 		JOptionPane.showMessageDialog(gameView, "<html>게임 종료!<br>점수: " + gameModel.getScore() + "<br>분리수거에 대해 조금 더 공부합시다</html>", "알림", JOptionPane.INFORMATION_MESSAGE);
 		JPanel panel = new JPanel();
