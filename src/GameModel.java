@@ -15,8 +15,10 @@ public class GameModel {
 	private int score; // 점수
 	private int timeLeft; // 남은 시간
 	private Random random;
+	private List<Item> incorrectItems; // 잘못된 분리수거 항목 저장 리스트
 
 	public GameModel() {
+		this.incorrectItems = new ArrayList<>(); // 잘못된 항목 리스트 초기화
 	}
 	
 	public void resetStates() {
@@ -24,7 +26,12 @@ public class GameModel {
 		score = 0;
 		timeLeft = 30;
 		random = new Random();
+		incorrectItems.clear(); // 게임 시작 시 잘못된 항목 리스트 초기화
 	}
+
+	 public List<Item> getIncorrectItems() {
+		 return incorrectItems;
+	 }
 	
     public void setLevelData(LevelData levelData) {
     	// 선택된 레벨의 데이터를 받아 초기화하는 메소드
@@ -64,6 +71,7 @@ public class GameModel {
 			score += 10;
 		} else {
 			score -= 5;
+			incorrectItems.add(currentItem); // 잘못된 분리수거 항목을 리스트에 추가
 		}
 	}
 
