@@ -24,6 +24,9 @@ public class GameView extends JPanel {
 		setBackground(StyleManager.backgroundColor);
 		
 		initializeLevelSelectButton(frame);
+		setComponentZOrder(levelSelectButton, 0); // 버튼을 최상위로 설정
+	    revalidate();
+	    repaint();
 	}
 	
 	private void initializeLevelSelectButton(GameFrame frame) {
