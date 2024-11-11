@@ -1,6 +1,11 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 public class GameView extends JPanel {
 	// ***************************
@@ -11,11 +16,25 @@ public class GameView extends JPanel {
 	// ***************************
 
 	private GameModel gameModel;
+	private JButton levelSelectButton;
 
-	public GameView(GameModel model) {
+	public GameView(GameModel model, GameFrame frame) {
 		this.gameModel = model;
 		setLayout(null); // 절대 레이아웃으로 아이템 위치를 수동으로 설정
 		setBackground(StyleManager.backgroundColor);
+		
+		initializeLevelSelectButton(frame);
+	}
+	
+	private void initializeLevelSelectButton(GameFrame frame) {
+		levelSelectButton = new JButton("Back");
+		levelSelectButton.setBounds(20, 10, 200, 50); // 위치와 크기 설정
+		levelSelectButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.showLevelSelectMenu();
+			}
+		});
 	}
 	
 	public void resetView() {
@@ -80,5 +99,6 @@ public class GameView extends JPanel {
 		g.setFont(new Font("Arial", Font.BOLD, 24));
 		g.drawString("time left: " + gameModel.getTimeLeft(), 900, 600);
 		g.drawString("score: " + gameModel.getScore(), 900, 650);
+	
 	}
 }

@@ -22,7 +22,7 @@ public class GameFrame extends JFrame {
 		setLayout(cardLayout);
 		
 		gameModel = new GameModel();
-		gameView = new GameView(gameModel);
+		gameView = new GameView(gameModel, this);
 		levelManager = new LevelManager();
 
 		// showLevelSelectMenu 메소드를 호출하는 리스너를 메인 메뉴에 전달
@@ -40,7 +40,6 @@ public class GameFrame extends JFrame {
 		setSize(WIDTH, HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null); // 프레임을 중앙에 표시
-	
 	
 	
 	}
