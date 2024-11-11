@@ -31,7 +31,7 @@ public class GameView extends JPanel {
 	
 	private void initializeLevelSelectButton(GameFrame frame) {
 		levelSelectButton = new JButton("Back");
-		levelSelectButton.setBounds(1000, 700, 200, 50); // 위치와 크기 설정
+		levelSelectButton.setBounds(10, 10, 100, 40); // 위치와 크기 설정
 		levelSelectButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -43,7 +43,7 @@ public class GameView extends JPanel {
 	
 	public void resetView() {
 		removeAll(); // 컴포넌트 모두 제거 (아이템, 분리수거 통들)
-		
+		add(levelSelectButton);
 		displayBins();	// 분리수거 통 배치
 		displayNewItem();	// 아이템 배치
 	}
@@ -101,8 +101,17 @@ public class GameView extends JPanel {
 
 		// 타이머 및 점수 표시
 		g.setFont(new Font("Arial", Font.BOLD, 24));
-		g.drawString("time left: " + gameModel.getTimeLeft(), 900, 600);
-		g.drawString("score: " + gameModel.getScore(), 900, 650);
+		int panelWidth = getWidth();
+		
+		//g.drawString("time left: " + gameModel.getTimeLeft(), 900, 600);
+		//g.drawString("score: " + gameModel.getScore(), 900, 650);
 	
+		String timeText = "time left: " + gameModel.getTimeLeft();
+		int timeTextWidth = g.getFontMetrics().stringWidth(timeText);
+		g.drawString(timeText, (panelWidth - timeTextWidth) / 2, 40);
+		
+		String scoreText = "score: " + gameModel.getScore();
+		int scoreTextWidth = g.getFontMetrics().stringWidth(scoreText);
+		g.drawString(scoreText, panelWidth - scoreTextWidth - 20, getHeight() - 20);
 	}
 }
