@@ -35,8 +35,11 @@ public class GameView extends JPanel {
 		int buttonWidth = 100;
 	    int buttonHeight = 40;
 	    
-	    int buttonX = getWidth() / 20;
-	    int buttonY = getHeight() / 20;
+	    int buttonX = 30;
+		int buttonY = 30;
+		
+	   // int buttonX = getWidth() / 5;
+	   // int buttonY = getHeight() / 5;
 	    
 	    levelSelectButton.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
 		
@@ -68,7 +71,7 @@ public class GameView extends JPanel {
 		int totalWidth = (binWidth * bins.size()) + (spacing * (bins.size() - 1));
 
 		int startX = (panelWidth - totalWidth) / 2; // 중앙 정렬을 위한 시작 X 좌표
-		int yPosition = 20; // 화면 상단에서 20px 아래
+		int yPosition = 150; // 화면 상단에서 20px 아래
 
 		for (int i = 0; i < bins.size(); i++) {
 			bins.get(i).setBounds(startX + i * (binWidth + spacing), yPosition, binWidth, binHeight);
@@ -109,9 +112,7 @@ public class GameView extends JPanel {
 
 		// 타이머 및 점수 표시
 		g.setFont(new Font("Arial", Font.BOLD, 24));
-		int panelWidth = getWidth();
-		
-		g.drawString("time left: " + gameModel.getTimeLeft(), 900, 600);
-		g.drawString("score: " + gameModel.getScore(), 900, 650);
+		g.drawString("time left: " + gameModel.getTimeLeft(), 650, 100);
+		g.drawString("score: " + gameModel.getScore(), 200, 650);
 	}
 }
