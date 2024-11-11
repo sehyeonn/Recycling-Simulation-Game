@@ -31,7 +31,15 @@ public class GameView extends JPanel {
 	
 	private void initializeLevelSelectButton(GameFrame frame) {
 		levelSelectButton = new JButton("Back");
-		levelSelectButton.setBounds(30, 30, 80, 40); // 위치와 크기 설정
+		
+		int buttonWidth = 100;
+	    int buttonHeight = 40;
+	    
+	    int buttonX = getWidth() / 20;
+	    int buttonY = getHeight() / 20;
+	    
+	    levelSelectButton.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
+		
 		levelSelectButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
