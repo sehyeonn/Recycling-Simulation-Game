@@ -35,6 +35,7 @@ public class GameView extends JPanel {
 				frame.showLevelSelectMenu();
 			}
 		});
+		add(levelSelectButton);
 	}
 	
 	public void resetView() {
