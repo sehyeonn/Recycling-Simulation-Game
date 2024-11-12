@@ -22,13 +22,14 @@ public class GameFrame extends JFrame {
 		setLayout(cardLayout);
 		
 		gameModel = new GameModel();
-		gameView = new GameView(gameModel, this);
+		gameView = new GameView(gameModel, e -> showLevelSelectMenu());
 		levelManager = new LevelManager();
 
 		// showLevelSelectMenu 메소드를 호출하는 리스너를 메인 메뉴에 전달
 		mainMenu = new MainMenu(e -> showLevelSelectMenu());
 		// startGameWithLevel 메소드를 호출하는 리스너를 레벨 선택 메뉴에 전달
 		levelSelectMenu = new LevelSelectMenu(e -> startGameWithLevel(e.getActionCommand()));
+		
 		
 		
 
