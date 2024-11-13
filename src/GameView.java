@@ -16,7 +16,7 @@ public class GameView extends JPanel {
 	// ***************************
 
 	private GameModel gameModel;
-	private JButton levelSelectButton;
+	public JButton levelSelectButton;
 
 	public GameView(GameModel model, ActionListener listener ) {
 		this.gameModel = model;
@@ -27,6 +27,7 @@ public class GameView extends JPanel {
 		setComponentZOrder(levelSelectButton, 0); // 버튼을 최상위로 설정
 	    revalidate();
 	    repaint();
+	    
 	}
 	
 	private void initializeLevelSelectButton(ActionListener listener) {
@@ -43,7 +44,8 @@ public class GameView extends JPanel {
 	    
 	    levelSelectButton.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
 		
-		levelSelectButton.addActionListener(listener);
+		//levelSelectButton.addActionListener(listener);
+		
 		//add(levelSelectButton);
 	}
 	
