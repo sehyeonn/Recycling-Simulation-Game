@@ -17,9 +17,9 @@ public class GameModel {
 	private Random random;
 
 	public GameModel() {
-		this.incorrectItems = new ArrayList<>(); // 잘못된 항목 리스트 초기화
+
 	}
-	
+
 	public void resetStates() {
 		// 게임 상태 초기화
 		score = 0;
@@ -27,14 +27,12 @@ public class GameModel {
 		random = new Random();
 	}
 
-
-	
-    public void setLevelData(LevelData levelData) {
-    	// 선택된 레벨의 데이터를 받아 초기화하는 메소드
-    	resetStates();
-        this.itemTemplates = new ArrayList<>(levelData.getItemTemplates());
-        this.bins = new ArrayList<>(levelData.getBins());
-    }
+	public void setLevelData(LevelData levelData) {
+		// 선택된 레벨의 데이터를 받아 초기화하는 메소드
+		resetStates();
+		this.itemTemplates = new ArrayList<>(levelData.getItemTemplates());
+		this.bins = new ArrayList<>(levelData.getBins());
+	}
 
 	public void provideNewItem() {
 		// 새로운 아이템을 제공하는 메소드
@@ -67,7 +65,7 @@ public class GameModel {
 			score += 10;
 		} else {
 			score -= 5;
-			incorrectItems.add(currentItem); // 잘못된 분리수거 항목을 리스트에 추가
+
 		}
 	}
 
