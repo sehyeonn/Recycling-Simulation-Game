@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 public class GameView extends JPanel {
 	// ***************************
@@ -9,76 +8,102 @@ public class GameView extends JPanel {
 	// JPanel을 상속 받아 구현
 	// 주요 로직을 포함하지 않음
 	// ***************************
+	    private GameModel gameModel;
+	    private JLabel incorrectMarkLabel; // X 표시용 JLabel
+	    private Timer clearMarkTimer; // X 표시 제거 타이머
 
-	private GameModel gameModel;
+	    public GameView(GameModel model) {
+	        this.gameModel = model;
+	        setLayout(null); // 절대 레이아웃 사용
+	        setBackground(StyleManager.backgroundColor);
 
-	public GameView(GameModel model) {
-		this.gameModel = model;
-		setLayout(null); // 절대 레이아웃으로 아이템 위치를 수동으로 설정
-		setBackground(StyleManager.backgroundColor);
+	        // X 표시용 JLabel 초기화
+	        incorrectMarkLabel = new JLabel();
+	        incorrectMarkLabel.setIcon(getResizedIcon("images/incorrect_mark.png", 200, 200)); // 크기 조정된 아이콘
+	        incorrectMarkLabel.setSize(200, 200); // 크기 설정
+	        incorrectMarkLabel.setVisible(false); // 초기에는 보이지 않음
+	        add(incorrectMarkLabel); // GameView에 추가
+	    }
+
+	    private ImageIcon getResizedIcon(String path, int width, int height) {
+	        ImageIcon icon = new ImageIcon(path);
+	        Image img = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+	        return new ImageIcon(img);
+	    }
+
+	    public void resetView() {
+	        removeAll(); // 컴포넌트 모두 제거
+	        displayBins(); // 분리수거 통 배치
+	        displayNewItem(); // 아이템 배치
+	        add(incorrectMarkLabel); // X 표시 JLabel 다시 추가
+	    }
+
+	    public void showIncorrectMark(Point location) {
+	        // 기존 타이머가 실행 중이면 중단
+	        if (clearMarkTimer != null && clearMarkTimer.isRunning()) {
+	            clearMarkTimer.stop();
+	        }
+
+	        // X 표시 위치 설정 및 표시
+	        incorrectMarkLabel.setLocation(location.x - 50, location.y - 50); // X 표시를 중심으로 배치
+	        incorrectMarkLabel.setVisible(true);
+
+	        // Z-인덱스를 최상단으로 설정
+	        setComponentZOrder(incorrectMarkLabel, 0);
+
+	        // 1초 뒤에 X 표시 제거
+	        clearMarkTimer = new Timer(1000, e -> {
+	            incorrectMarkLabel.setVisible(false);
+	        });
+	        clearMarkTimer.setRepeats(false); // 한 번만 실행되도록 설정
+	        clearMarkTimer.start();
+	    }
+
+	    public void displayBins() {
+	        int panelWidth = getWidth();
+	        int binWidth = gameModel.getBins().get(0).getWidth();
+	        int binHeight = gameModel.getBins().get(0).getHeight();
+	        int spacing = 60;
+
+	        int totalWidth = (binWidth * gameModel.getBins().size()) + (spacing * (gameModel.getBins().size() - 1));
+	        int startX = (panelWidth - totalWidth) / 2;
+	        int yPosition = 20;
+
+	        for (int i = 0; i < gameModel.getBins().size(); i++) {
+	            Bin bin = gameModel.getBins().get(i);
+	            bin.setBounds(startX + i * (binWidth + spacing), yPosition, binWidth, binHeight);
+	            add(bin);
+	        }
+	    }
+
+	    public void removeItem() {
+	        remove(gameModel.getCurrentItem());
+	    }
+
+	    public void displayNewItem() {
+	        Item newItem = gameModel.getCurrentItem();
+	        add(newItem);
+
+	        int panelWidth = getWidth();
+	        int panelHeight = getHeight();
+	        int itemWidth = newItem.getWidth();
+	        int itemHeight = newItem.getHeight();
+
+	        int xPosition = (panelWidth - itemWidth) / 2;
+	        int yPosition = panelHeight - itemHeight - 40;
+
+	        newItem.setBounds(xPosition, yPosition, itemWidth, itemHeight);
+	        setComponentZOrder(newItem, 0); // 아이템을 최상단으로 설정
+	        repaint();
+	    }
+
+	    @Override
+	    protected void paintComponent(Graphics g) {
+	        super.paintComponent(g);
+
+	        // 타이머 및 점수 표시
+	        g.setFont(new Font("Arial", Font.BOLD, 24));
+	        g.drawString("time left: " + gameModel.getTimeLeft(), 900, 600);
+	        g.drawString("score: " + gameModel.getScore(), 900, 650);
+	    }
 	}
-	
-	public void resetView() {
-		removeAll(); // 컴포넌트 모두 제거 (아이템, 분리수거 통들)
-		
-		displayBins();	// 분리수거 통 배치
-		displayNewItem();	// 아이템 배치
-	}
-
-	public void displayBins() {
-		// 분리수거 통들을 배치하는 메소드
-		// 중앙 상단에 나란히 배치
-		int panelWidth = getWidth();
-		int binWidth = gameModel.getBins().get(0).getWidth(); // 분리수거 통의 폭 (모든 통이 동일한 크기라고 가정)
-		int binHeight = gameModel.getBins().get(0).getHeight();
-		int spacing = 60; // Bin 간격
-
-		List<Bin> bins = gameModel.getBins();
-		int totalWidth = (binWidth * bins.size()) + (spacing * (bins.size() - 1));
-
-		int startX = (panelWidth - totalWidth) / 2; // 중앙 정렬을 위한 시작 X 좌표
-		int yPosition = 20; // 화면 상단에서 20px 아래
-
-		for (int i = 0; i < bins.size(); i++) {
-			bins.get(i).setBounds(startX + i * (binWidth + spacing), yPosition, binWidth, binHeight);
-			add(bins.get(i)); // 패널에 추가
-		}
-	}
-	
-	public void removeItem() {
-		// 기존 아이템을 화면에서 제거하는 메소드
-		remove(gameModel.getCurrentItem());
-	}
-
-	public void displayNewItem() {
-		// 새 아이템을 배치하는 메소드
-		// 새 아이템을 추가
-		Item newItem = gameModel.getCurrentItem();
-		add(newItem);
-
-		// 아이템의 위치 계산
-		int panelWidth = getWidth();
-		int panelHeight = getHeight();
-		int itemWidth = newItem.getWidth();
-		int itemHeight = newItem.getHeight();
-
-		int xPosition = (panelWidth - itemWidth) / 2; // 중앙 정렬을 위한 X 좌표
-		int yPosition = panelHeight - itemHeight - 40; // 하단에서 20px 위로 위치
-
-		// 아이템 위치 설정
-		newItem.setBounds(xPosition, yPosition, itemWidth, itemHeight);
-		setComponentZOrder(newItem, 0); // Item의 z-인덱스를 가장 위로 설정
-
-		repaint(); // 화면 업데이트
-	}
-
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-
-		// 타이머 및 점수 표시
-		g.setFont(new Font("Arial", Font.BOLD, 24));
-		g.drawString("time left: " + gameModel.getTimeLeft(), 900, 600);
-		g.drawString("score: " + gameModel.getScore(), 900, 650);
-	}
-}
