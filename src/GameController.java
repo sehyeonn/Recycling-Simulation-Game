@@ -15,15 +15,16 @@ public class GameController implements MouseListener, MouseMotionListener {
 	private GameView gameView;
 	private GameFrame gameFrame;
 	private Timer gameTimer;
-	private Item draggedItem;	// 드래그된 아이템 (드래그 할 수 있게 설정된 아이템)
-	private List<Item> incorrectItems; 	// 잘못된 분리수거 항목을 저장할 리스트
+	private Item draggedItem; // 드래그된 아이템 (드래그 할 수 있게 설정된 아이템)
+
+	// 잘못된 분리수거 항목을 저장할 리스트
+	private List<Item> incorrectItems;
 
 	public GameController(GameModel model, GameView view, GameFrame gameFrame) {
 		this.gameModel = model;
 		this.gameView = view;
 		this.gameFrame = gameFrame;
 		this.incorrectItems = new ArrayList<>();
-
 
 		// gameView에 마우스리스너 부착
 		gameView.addMouseListener(this);
@@ -32,10 +33,10 @@ public class GameController implements MouseListener, MouseMotionListener {
 
 	public void startGame() {
 		// 게임을 시작하는 메소드
-		gameModel.provideNewItem();	// 첫 아이템 제공
+		gameModel.provideNewItem(); // 첫 아이템 제공
 		gameView.resetView(); // 게임 화면 초기화
 		incorrectItems.clear();
-		
+
 		// 1초마다 시간을 감소시키고 남은 시간이 0이 되면 게임을 종료시키는 타이머 생성
 		gameTimer = new Timer(1000, e -> {
 			gameModel.decrementTime();
@@ -46,43 +47,28 @@ public class GameController implements MouseListener, MouseMotionListener {
 		});
 		gameTimer.start(); // 타이머 시작
 	}
+
 	private void endGame() {
 		// 게임 종료 메소드
-		gameTimer.stop();	// 타이머 중지
-
-		// gameView에서 마우스리스너 제거 (제거 안 해주었더니 게임 재시작 횟수만큼 이벤트 중복 생성)
+		gameTimer.stop(); // 타이머 중지
+		
 		gameView.removeMouseListener(this);
-		gameView.removeMouseMotionListener(this);
+	    gameView.removeMouseMotionListener(this);
+
 		
-		
-		StringBuilder feedbackMessage = new StringBuilder(
-		"<html>게임 종료!<br><br>최종 점수: " + gameModel.getScore() + "<br><br>");
+		// 게임이 종료된 시점에 FeedbackDialog로 최종 점수와 잘못된 항목을 출력
+	    FeedbackDialog feedbackDialog = new FeedbackDialog(gameFrame, gameModel.getScore(), incorrectItems);
+	    feedbackDialog.setVisible(true);
 
-		if (!incorrectItems.isEmpty()) {
-			feedbackMessage.append("<br>분리수거에 대해 조금 더 공부합시다<br>" + "<br>잘못된 분리수거 항목:<br>");
-			for (Item item : incorrectItems) {
-				feedbackMessage.append("- ").append(item.getName()).append(" 용기는 ").append(item.getType())
-						.append(" 수거함에 배출해야 합니다.<br>");
-			}
-		} else {
-			feedbackMessage.append("모든 분리수거를 올바르게 수행했습니다! 잘하셨습니다!");
-		}
-
-		feedbackMessage.append("</html>");
-
-		// 다이얼로그로 최종 점수와 피드백 출력
-		JOptionPane.showMessageDialog(gameView, feedbackMessage.toString(), "게임 결과", JOptionPane.INFORMATION_MESSAGE);
-
-		gameFrame.showLevelSelectMenu(); // 레벨 선택 화면으로 돌아감
-
+	    gameFrame.showLevelSelectMenu();
+	    
 	}
-
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// 마우스를 누를 시
-		Point clickPoint = e.getPoint();	// 마우스를 누른 좌표
-		Item currentItem = gameModel.getCurrentItem();	// 현재 제공된 아이템
+		Point clickPoint = e.getPoint(); // 마우스를 누른 좌표
+		Item currentItem = gameModel.getCurrentItem(); // 현재 제공된 아이템
 		// 누른 좌표가 현재 제공된 아이템 위라면 아이템을 드래그할 수 있게 설정
 		if (currentItem != null && currentItem.getBounds().contains(clickPoint)) {
 			draggedItem = currentItem;
@@ -99,33 +85,31 @@ public class GameController implements MouseListener, MouseMotionListener {
 		}
 	}
 
-@Override
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		// 마우스를 뗄 시
 		if (draggedItem != null) {
-			Point dropPoint = e.getPoint(); // 마우스를 뗀 좌표
+			Point dropPoint = e.getPoint();	// 마우스를 뗀 좌표
 			// 마우스를 뗀 좌표에 위치한 분리수거 통을 알아냄
 			for (Bin bin : gameModel.getBins()) {
 				if (bin.getBounds().contains(dropPoint)) {
 					// 올바른 분리수거인지 알아냄
 					boolean isCorrect = gameModel.isCorrectBin(bin);
-
+					
 					if (isCorrect) {
-						gameModel.updateScore(isCorrect); // 점수 업데이트
-						gameView.removeItem(); // 기존 아이템 제거
-						gameModel.provideNewItem(); // 새 아이템 제공
-						gameView.displayNewItem(); // 새 아이템 배치
-
+					gameModel.updateScore(true);	// 점수 업데이트
+					gameView.removeItem();			// 기존 아이템 제거
+					gameModel.provideNewItem();		// 새 아이템 제공
+					gameView.displayNewItem();		// 새 아이템 배치
 					} else {
-						// 잘못된 분리수거 항목 리스트에 추가
-						incorrectItems.add(draggedItem);
-						gameModel.updateScore(false);
-
-						// 실시간 피드백 메시지 (선택 사항)
-						JOptionPane.showMessageDialog(gameView, "<html>" + draggedItem.getName() + " 용기는 "
-								+ draggedItem.getType() + " 수거함에 배출해야 합니다.</html>", "잘못된 분리수거",
-								JOptionPane.WARNING_MESSAGE);
-					}
+	                    // 실패한 항목 리스트에 추가
+	                    incorrectItems.add(draggedItem);
+	                    gameModel.updateScore(false);
+	                    
+	                    // X 표시를 드롭 위치에 표시
+	                    gameView.showIncorrectMark(dropPoint);
+	                }
+					
 					break;
 				}
 			}
