@@ -10,10 +10,12 @@ public class Item extends JLabel {
 
 	private String name;
 	private String type; // 아이템의 재질 유형
+	private String imagePath; // 이미지 경로를 저장
 
 	public Item(String name, String type, String imagePath) {
 		this.name = name;
 		this.type = type;
+		this.imagePath = imagePath;
 
 		// 이미지 아이콘을 설정하여 JLabel로 표시
 		setIcon(new ImageIcon(imagePath));
@@ -27,4 +29,8 @@ public class Item extends JLabel {
 	public String getType() {
 		return type;
 	}
+	
+	public String getImage() {
+        return imagePath;
+    }
 }
