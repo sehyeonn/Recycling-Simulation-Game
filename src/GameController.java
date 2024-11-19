@@ -74,7 +74,7 @@ public class GameController implements MouseListener, MouseMotionListener {
 			draggedItem = currentItem;
 		}
 	}
-
+	
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// 마우스를 누른 후 드래그 시
@@ -87,34 +87,46 @@ public class GameController implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// 마우스를 뗄 시
-		if (draggedItem != null) {
-			Point dropPoint = e.getPoint();	// 마우스를 뗀 좌표
-			// 마우스를 뗀 좌표에 위치한 분리수거 통을 알아냄
-			for (Bin bin : gameModel.getBins()) {
-				if (bin.getBounds().contains(dropPoint)) {
-					// 올바른 분리수거인지 알아냄
-					boolean isCorrect = gameModel.isCorrectBin(bin);
-					
-					if (isCorrect) {
-					gameModel.updateScore(true);	// 점수 업데이트
-					gameView.removeItem();			// 기존 아이템 제거
-					gameModel.provideNewItem();		// 새 아이템 제공
-					gameView.displayNewItem();		// 새 아이템 배치
-					} else {
+	    // 마우스를 뗄 시
+	    if (draggedItem != null) {
+	        Point dropPoint = e.getPoint(); // 마우스를 뗀 좌표
+	        // 마우스를 뗀 좌표에 위치한 분리수거 통을 알아냄
+	        for (Bin bin : gameModel.getBins()) {
+	            if (bin.getBounds().contains(dropPoint)) {
+	                // 올바른 분리수거인지 알아냄
+	                boolean isCorrect = gameModel.isCorrectBin(bin);
+
+	                if (isCorrect) {
+	                    gameModel.updateScore(true); // 점수 업데이트
+	                    gameView.removeItem(); // 기존 아이템 제거
+	                    gameModel.provideNewItem(); // 새 아이템 제공
+	                    gameView.displayNewItem(); // 새 아이템 배치
+	                } else {
 	                    // 실패한 항목 리스트에 추가
 	                    incorrectItems.add(draggedItem);
 	                    gameModel.updateScore(false);
-	                    
+
 	                    // X 표시를 드롭 위치에 표시
 	                    gameView.showIncorrectMark(dropPoint);
+
+	                    // 타이머를 사용하여 X 표시를 보여준 후 새 아이템 제공
+	                    Timer timer = new Timer(300, new ActionListener() {
+	                        @Override
+	                        public void actionPerformed(ActionEvent event) {
+	                            gameView.removeItem(); // 기존 아이템 제거
+	                            gameModel.provideNewItem(); // 새 아이템 제공
+	                            gameView.displayNewItem(); // 새 아이템 배치
+	                        }
+	                    });
+	                    timer.setRepeats(false); // 타이머를 한 번만 실행
+	                    timer.start();
 	                }
-					
-					break;
-				}
-			}
-			draggedItem = null;
-		}
+
+	                break;
+	            }
+	        }
+	        draggedItem = null;
+	    }
 	}
 
 	@Override
