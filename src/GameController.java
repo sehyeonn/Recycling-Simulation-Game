@@ -16,9 +16,7 @@ public class GameController implements MouseListener, MouseMotionListener {
 	private GameFrame gameFrame;
 	private Timer gameTimer;
 	private Item draggedItem; // 드래그된 아이템 (드래그 할 수 있게 설정된 아이템)
-
-	// 잘못된 분리수거 항목을 저장할 리스트
-	private List<Item> incorrectItems;
+	private List<Item> incorrectItems; // 잘못된 분리수거 항목을 저장할 리스트
 
 	public GameController(GameModel model, GameView view, GameFrame gameFrame) {
 		this.gameModel = model;
@@ -29,6 +27,10 @@ public class GameController implements MouseListener, MouseMotionListener {
 		// gameView에 마우스리스너 부착
 		gameView.addMouseListener(this);
 		gameView.addMouseMotionListener(this);
+		gameView.levelSelectButton.addActionListener(e -> {
+			stopGame();
+			gameFrame.showLevelSelectMenu();
+		});
 	}
 
 	public void startGame() {
@@ -50,18 +52,22 @@ public class GameController implements MouseListener, MouseMotionListener {
 
 	private void endGame() {
 		// 게임 종료 메소드
-		gameTimer.stop(); // 타이머 중지
-		
-		gameView.removeMouseListener(this);
-	    gameView.removeMouseMotionListener(this);
-
+		stopGame(); // 게임 중지
 		
 		// 게임이 종료된 시점에 FeedbackDialog로 최종 점수와 잘못된 항목을 출력
 	    FeedbackDialog feedbackDialog = new FeedbackDialog(gameFrame, gameModel.getScore(), incorrectItems);
 	    feedbackDialog.setVisible(true);
 
 	    gameFrame.showLevelSelectMenu();
-	    
+  }
+	
+	// 게임 중지 메소드
+	private void stopGame() {
+		gameTimer.stop(); // 타이머 중지
+		
+		// gameView에서 마우스리스너 제거 (제거 안 해주었더니 게임 재시작 횟수만큼 이벤트 중복 생성)
+		gameView.removeMouseListener(this);
+		gameView.removeMouseMotionListener(this);
 	}
 
 	@Override
