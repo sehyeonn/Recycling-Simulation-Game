@@ -23,7 +23,7 @@ public class GameFrame extends JFrame {
 		setLayout(cardLayout);
 		
 		gameModel = new GameModel();
-		gameView = new GameView(gameModel);
+		gameView = new GameView(gameModel, e -> showLevelSelectMenu());
 		levelManager = new LevelManager();
 
 		
@@ -35,7 +35,6 @@ public class GameFrame extends JFrame {
 		
 		// 이전 버튼 클릭 시 메인 메뉴로 돌아가는 리스너 추가(지후)
         levelSelectMenu.setBackButtonListener(e -> showMainMenu());
-
         
 		add(mainMenu, "MainMenu"); // 메인메뉴 화면
 		add(levelSelectMenu, "LevelSelect"); // 레벨 선택 화면
@@ -45,7 +44,6 @@ public class GameFrame extends JFrame {
 		setSize(WIDTH, HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null); // 프레임을 중앙에 표시
-	
 	
 	
 	}
