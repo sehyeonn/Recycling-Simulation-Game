@@ -5,3 +5,5 @@ bin/
 .metadata/
 
 .metadata
+.DS_Store
+scores.dat

@@ -10,7 +10,7 @@ public class Item extends JLabel {
 
 	private String name;
 	private String type; // 아이템의 재질 유형
-	 private String imagePath; // 이미지 경로 필드
+	private String imagePath; // 이미지 경로를 저장
 
 	public Item(String name, String type, String imagePath) {
 		this.name = name;
@@ -33,4 +33,5 @@ public class Item extends JLabel {
 	public String getType() {
 		return type;
 	}
+	
 }
