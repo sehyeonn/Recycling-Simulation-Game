@@ -37,6 +37,12 @@ public class GameView extends JPanel {
 	// 레벨 선택 화면으로 돌아가는 버튼 생성
 	private void initializeLevelSelectButton() {
 		levelSelectButton = new JButton("Back");
+		
+		levelSelectButton.setFont(StyleManager.buttonFont);
+		levelSelectButton.setPreferredSize(new Dimension(110, 50)); // 버튼 크기 설정
+		levelSelectButton.setFocusPainted(false);
+		levelSelectButton.setOpaque(true);
+		levelSelectButton.setBackground(StyleManager.buttonColor);
 
 		int buttonWidth = 100;
 		int buttonHeight = 40;
