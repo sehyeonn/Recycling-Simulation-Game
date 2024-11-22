@@ -25,8 +25,10 @@ public class LevelManager {
 	private LevelData createDataLevel1() {
 		// 레벨1 데이터
 		List<Item> itemTemplates = new ArrayList<>();
-		itemTemplates.add(new Item("플라스틱", "플라스틱", "images/plastic.png"));
-		itemTemplates.add(new Item("유리", "유리", "images/glass.png"));
+		itemTemplates.add(new Item("플라스틱", "플라스틱", "images/plastic_bowl.png"));
+		itemTemplates.add(new Item("플라스틱", "플라스틱", "images/petbottle_black.png"));
+		itemTemplates.add(new Item("플라스틱", "플라스틱", "images/petbottle_none_cola.png"));
+		itemTemplates.add(new Item("유리", "유리", "images/glassbottle_sink_none.png"));
 		itemTemplates.add(new Item("종이", "종이", "images/paper.png"));
 
 		List<Bin> bins = new ArrayList<>();
