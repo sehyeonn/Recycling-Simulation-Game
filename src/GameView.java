@@ -36,7 +36,7 @@ public class GameView extends JPanel {
 
 	// 레벨 선택 화면으로 돌아가는 버튼 생성
 	private void initializeLevelSelectButton() {
-		levelSelectButton = new JButton("Back");
+		levelSelectButton = new JButton("이전");
 		
 		levelSelectButton.setFont(StyleManager.buttonFont);
 		levelSelectButton.setPreferredSize(new Dimension(110, 50)); // 버튼 크기 설정
@@ -102,7 +102,7 @@ public class GameView extends JPanel {
 
 		int totalWidth = (binWidth * gameModel.getBins().size()) + (spacing * (gameModel.getBins().size() - 1));
 		int startX = (panelWidth - totalWidth) / 2; // 중앙 정렬을 위한 시작 X 좌표
-		int yPosition = 150; // 화면 상단에서 20px 아래
+		int yPosition = 180; // 화면 상단에서 20px 아래
 
 		for (int i = 0; i < gameModel.getBins().size(); i++) {
 			Bin bin = gameModel.getBins().get(i);
@@ -164,8 +164,8 @@ public class GameView extends JPanel {
 		super.paintComponent(g);
 		// 타이머 및 점수 표시
 		g.setFont(new Font("Arial", Font.BOLD, 24));
-		g.drawString("time left: " + gameModel.getTimeLeft(), 650, 100);
-		g.drawString("score: " + gameModel.getScore(), 200, 650);
+		g.drawString("time left: " + gameModel.getTimeLeft(), 800, 100);
+		g.drawString("score: " + gameModel.getScore(), 400, 100);
 	}
 
 }
