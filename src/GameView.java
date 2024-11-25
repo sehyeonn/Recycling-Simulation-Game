@@ -186,7 +186,7 @@ public class GameView extends JPanel {
 		int currentBarWidth = (int)((remainingTime / (float) maxTime) * totalBarWidth);
 		
 		//바의 위치 설정
-		int barX = 890;
+		int barX = 887;
 		int barY = 75;
 		
 		//바 그리기
