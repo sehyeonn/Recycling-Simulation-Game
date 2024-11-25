@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import javax.imageio.*;
+import java.io.File;
 
 public class GameView extends JPanel {
 	// ***************************
@@ -14,11 +16,22 @@ public class GameView extends JPanel {
 	private JLabel incorrectMarkLabel; // X 표시용 JLabel
 	private Timer clearMarkTimer; // X 표시 제거 타이머
 	public JButton levelSelectButton;
+	private Image timerIcon; //타이머 아이콘 이미지
+	private Image scoreIcon; //점 아이콘 이미지
 
 	public GameView(GameModel model) {
 		this.gameModel = model;
 		setLayout(null); // 절대 레이아웃 사용
 		setBackground(StyleManager.backgroundColor);
+		
+		//타이머, 스코어 이미지 로드
+		try {
+			timerIcon = ImageIO.read(new File("images/stopwatch.png"));
+			scoreIcon = ImageIO.read(new File("images/star.png"));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		// X 표시용 JLabel 초기화
 		incorrectMarkLabel = new JLabel();
@@ -162,10 +175,42 @@ public class GameView extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
+		//타이머 바 그리기
+		int totalBarWidth = 300;
+		int barHeight = 20;
+		int remainingTime = gameModel.getTimeLeft();
+		int maxTime = 30;
+		
+		//남은 시간을 바의 너비로 환산
+		int currentBarWidth = (int)((remainingTime / (float) maxTime) * totalBarWidth);
+		
+		//바의 위치 설정
+		int barX = 890;
+		int barY = 75;
+		
+		//바 그리기
+		g.setColor(Color.RED);
+		g.fillRect(barX, barY, currentBarWidth, barHeight);
+		
+		//바의 경계선
+		g.setColor(Color.BLACK);
+		g.drawRect(barX, barY, currentBarWidth, barHeight);
+		
+		//타이머 아이콘 그리기
+		if (timerIcon != null) {
+			g.drawImage(timerIcon, 730, 50, 70, 70, this);
+		}
+		
+		// 점수 별 그리기
+		if (scoreIcon != null) {
+			g.drawImage(scoreIcon, 450, 50, 60, 60, this);
+		}
+		
 		// 타이머 및 점수 표시
-		g.setFont(new Font("Arial", Font.BOLD, 24));
-		g.drawString("time left: " + gameModel.getTimeLeft(), 800, 100);
-		g.drawString("score: " + gameModel.getScore(), 400, 100);
+		g.setFont(new Font("Arial", Font.BOLD, 40));
+		g.drawString("  " + remainingTime, 800, 100);
+		g.drawString("  " + gameModel.getScore(), 510, 100);
 	}
 
 }
