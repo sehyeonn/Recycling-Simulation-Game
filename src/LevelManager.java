@@ -39,7 +39,7 @@ public class LevelManager {
 		List<Bin> bins = new ArrayList<>();
 		bins.add(new Bin("플라스틱", "images/plastic_bin.png"));
 		bins.add(new Bin("유리", "images/glass_bin.png"));
-		bins.add(new Bin("종이", "images/paper_bin.png"));
+		bins.add(new Bin("종이", "images/paper_bin.png")); //캔으로 수정하기
 
 		return new LevelData(1, itemTemplates, bins);
 	}
