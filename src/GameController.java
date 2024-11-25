@@ -71,25 +71,8 @@ public class GameController implements MouseListener, MouseMotionListener {
 		// gameView에서 마우스리스너 제거 (제거 안 해주었더니 게임 재시작 횟수만큼 이벤트 중복 생성)
 		gameView.removeMouseListener(this);
 		gameView.removeMouseMotionListener(this);
+		gameView.removeAll();
 	}
-	
-	
-	public void showStartDialog(String level) {
-	    // 선택한 레벨에 따라 LevelData 
-	    LevelData levelData = levelManager.getLevelData(level);
-	    //예외 처리 
-	    if (levelData == null || levelData.getItemTemplates().isEmpty()) {
-	        System.out.println("선택한 레벨에 대한 사진이 없습니다.");
-	        return;
-	    }
-
-	    // 튜토리얼 다이얼로그 처리를 다른데서 처리 
-	    tutorialDialogManager.showItemDialogs(levelData, 0, level);
-	    //모든 튜토리얼 본 뒤 게임 스타트 메서드
-	    startGame();
-	}
-
-	
 
 	// 마우스를 누를 시
 	@Override
