@@ -32,6 +32,7 @@ public class LevelManager {
 		itemTemplates.add(new Item("콜라 빈 페트병", "플라스틱", "images/petbottle_none_cola.png"));
 		itemTemplates.add(new Item("유리병", "유리", "images/glassbottle_sink_none.png"));
 		itemTemplates.add(new Item("유리컵", "유리", "images/glassbottle_cup.png"));
+
 		itemTemplates.add(new Item("종이", "종이", "images/paper.png"));
 		itemTemplates.add(new Item("포스트잇", "종이", "images/paper_2.png"));
 		itemTemplates.add(new Item("신문지", "종이", "images/paper_3.png"));
@@ -47,6 +48,7 @@ public class LevelManager {
 	private LevelData createDataLevel2() {
 		// 레벨2 데이터
 		List<Item> itemTemplates = new ArrayList<>();
+
 		itemTemplates.add(new Item("배달음식 용기", "플라스틱", "images/plastic_bowl.png"));
 		itemTemplates.add(new Item("물티슈 뚜껑", "플라스틱", "images/plastic_water.png"));
 		itemTemplates.add(new Item("배달음식 용기", "플라스틱", "images/plastic_squre.png"));
@@ -71,6 +73,7 @@ public class LevelManager {
 	private LevelData createDataLevel3() {
 		// 레벨3 데이터
 		List<Item> itemTemplates = new ArrayList<>();
+
 		itemTemplates.add(new Item("빈 페트병", "페트", "images/petbottle_black.png"));
 		//itemTemplates.add(new Item("물티슈 뚜껑", "플라스틱", "images/plastic_water.png"));
 		//itemTemplates.add(new Item("배달음식 용기", "플라스틱", "images/plastic_squre.png"));
@@ -88,8 +91,8 @@ public class LevelManager {
 		bins.add(new Bin("비닐", "images/vinyl_bin.png"));
 		
 		List<Tool> tools = new ArrayList<>();
-		tools.add(new Tool("cutter", "images/cutter.png"));
-		tools.add(new Tool("sink", "images/sink.png"));
+		tools.add(new Tool("커터", "images/cutter.png"));
+		tools.add(new Tool("싱크대", "images/sink.png"));
 
 		return new LevelData(3, itemTemplates, bins, tools);
 	}
