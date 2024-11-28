@@ -14,6 +14,7 @@ public class GameModel {
 	private List<Tool> tools; // 도구 목록
 	private List<Item> currentItem; // 현재 제공 중인 아이템
 	private int score; // 점수
+	private int timeLimit;
 	private int timeLeft; // 남은 시간
 	private Random random;
 	private int level;
@@ -26,7 +27,8 @@ public class GameModel {
 	// 게임 상태 초기화
 	public void resetStates() {
 		score = 0;
-		timeLeft = 30;
+		timeLimit = 30;
+		timeLeft = timeLimit;
 		random = new Random();
 	}
 
@@ -74,6 +76,10 @@ public class GameModel {
 
 	public int getScore() {
 		return score;
+	}
+	
+	public int getTimeLimit() {
+		return timeLimit;
 	}
 
 	public int getTimeLeft() {

@@ -42,7 +42,7 @@ public class GameFrame extends JFrame {
 		add(levelSelectMenu, "LevelSelect"); // 레벨 선택 화면
 		add(gameView, "Game"); // 게임 화면
 
-		setTitle("Recycling Simulation Game");
+		setTitle("분리수거의 달인");
 		setSize(WIDTH, HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null); // 프레임을 중앙에 표시

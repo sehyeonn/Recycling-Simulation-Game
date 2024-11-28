@@ -53,7 +53,7 @@ public class TutorialDialogManager {
 		ImageIcon itemIcon = new ImageIcon(item.getImagePath());
 
 		// 제목 이미지 로드 및 크기 조정
-		ImageIcon titleImageIcon = new ImageIcon("images/tutorial.png");
+		ImageIcon titleImageIcon = new ImageIcon("images/deco/tutorial.png");
 		Image titleImage = titleImageIcon.getImage();
 		int titleWidth = 300; // 원하는 너비
 		int titleHeight = 70; // 원하는 높이
@@ -117,6 +117,7 @@ public class TutorialDialogManager {
 		dialog.setLocationRelativeTo(null); // 위치 선정
 		dialog.getContentPane().setBackground(StyleManager.tutorialBackgroudColor); // 다이얼로그 배경색 설정
 		dialog.getContentPane().setLayout(new BorderLayout());
+		dialog.setLocationRelativeTo(gameFrame);
 
 		// Next 버튼 생성 (크기 고정 및 정렬 조정)
 		JButton nextButton = new JButton("다음");

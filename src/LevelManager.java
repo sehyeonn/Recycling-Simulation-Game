@@ -28,7 +28,7 @@ public class LevelManager {
 
 		itemTemplates.add(new Item("물티슈 뚜껑", "플라스틱", "images/items/plastic_water.png"));
 		itemTemplates.add(new Item("배달음식 용기", "플라스틱", "images/items/plastic_squre.png"));
-		itemTemplates.add(new Item("콜라 빈 페트병", "플라스틱", "images/items/petbottle_none_cola.png"));
+		itemTemplates.add(new Item("테이크아웃 컵", "플라스틱", "images/items/plastic_cup.png"));
 		
 		itemTemplates.add(new Item("유리병", "유리", "images/items/glassbottle_sink_none.png"));
 		itemTemplates.add(new Item("유리컵", "유리", "images/items/glassbottle_cup.png"));
@@ -56,7 +56,7 @@ public class LevelManager {
 		itemTemplates.add(new Item("유리컵", "유리", "images/items/glassbottle_cup.png"));
 		
 		itemTemplates.add(new Item("종이", "종이", "images/items/paper.png"));
-		itemTemplates.add(new Item("포스트잇", "종이", "images/items/paper_2.png"));
+		itemTemplates.add(new Item("과자 상자", "종이", "images/items/snackbox.png"));
 		itemTemplates.add(new Item("신문지", "종이", "images/items/paper_3.png"));
 		
 		itemTemplates.add(new Item("휴지", "일반", "images/items/tissue.png"));

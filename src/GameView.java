@@ -177,7 +177,7 @@ public class GameView extends JPanel {
 		int totalBarWidth = 300;
 		int barHeight = 20;
 		int remainingTime = gameModel.getTimeLeft();
-		int maxTime = 30;
+		int maxTime = gameModel.getTimeLimit();
 
 		// 남은 시간을 바의 너비로 환산
 		int currentBarWidth = (int) ((remainingTime / (float) maxTime) * totalBarWidth);
@@ -187,12 +187,20 @@ public class GameView extends JPanel {
 		int barY = 75;
 
 		// 바 그리기
-		g.setColor(Color.RED);
+		if (remainingTime <= maxTime * 1/3) {
+			g.setColor(Color.RED);
+		} else if (remainingTime <= maxTime * 2/3) {
+			g.setColor(Color.YELLOW);
+		} else {
+			g.setColor(Color.GREEN);
+		}
+//		g.setColor(Color.RED);
 		g.fillRect(barX, barY, currentBarWidth, barHeight);
 
 		// 바의 경계선
 		g.setColor(Color.BLACK);
 		g.drawRect(barX, barY, currentBarWidth, barHeight);
+		g.drawRect(barX, barY, totalBarWidth, barHeight);
 
 		// 타이머 아이콘 그리기
 		if (timerIcon != null) {
