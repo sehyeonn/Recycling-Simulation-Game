@@ -14,7 +14,7 @@ public class Bin extends JLabel {
 		this.type = type;
 
 		// 이미지 아이콘을 설정하여 JLabel로 표시
-		setIcon(new ImageIcon(imagePath));
+		setIcon(new ImageIcon(getClass().getClassLoader().getResource(imagePath)));
 		setSize(getPreferredSize()); // 이미지 크기로 사이즈 설정
 	}
 

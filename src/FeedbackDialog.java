@@ -125,7 +125,7 @@ public class FeedbackDialog extends JDialog {
 	}
 
 	private ImageIcon getResizedIcon(String imagePath, int width, int height) {
-		ImageIcon icon = new ImageIcon(imagePath);
+		ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(imagePath));
 		Image img = icon.getImage();
 		Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		return new ImageIcon(resizedImg);

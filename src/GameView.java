@@ -3,6 +3,7 @@ import java.awt.*;
 import java.util.List;
 import javax.imageio.*;
 import java.io.File;
+import java.net.URL;
 
 public class GameView extends JPanel {
 	// ***************************
@@ -16,8 +17,8 @@ public class GameView extends JPanel {
 	private JLabel incorrectMarkLabel; // X 표시용 JLabel
 	private Timer clearMarkTimer; // X 표시 제거 타이머
 	public JButton levelSelectButton;
-	private Image timerIcon; // 타이머 아이콘 이미지
-	private Image scoreIcon; // 점 아이콘 이미지
+	private ImageIcon timerIcon; // 타이머 아이콘 이미지
+	private ImageIcon scoreIcon; // 점 아이콘 이미지
 
 	public GameView(GameModel model) {
 		this.gameModel = model;
@@ -26,15 +27,15 @@ public class GameView extends JPanel {
 
 		// 타이머, 스코어 이미지 로드
 		try {
-			timerIcon = ImageIO.read(new File("images/deco/stopwatch.png"));
-			scoreIcon = ImageIO.read(new File("images/deco/star.png"));
+			timerIcon = new ImageIcon(getClass().getClassLoader().getResource("stopwatch.png"));
+			scoreIcon = new ImageIcon(getClass().getClassLoader().getResource("star.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		// X 표시용 JLabel 초기화
 		incorrectMarkLabel = new JLabel();
-		incorrectMarkLabel.setIcon(getResizedIcon("images/deco/incorrect_mark.png", 200, 200)); // 크기 조정된 아이콘
+		incorrectMarkLabel.setIcon(getResizedIcon(getClass().getClassLoader().getResource("incorrect_mark.png"), 200, 200)); // 크기 조정된 아이콘
 		incorrectMarkLabel.setSize(200, 200); // 크기 설정
 		incorrectMarkLabel.setVisible(false); // 초기에는 보이지 않음
 		add(incorrectMarkLabel); // GameView에 추가
@@ -75,8 +76,8 @@ public class GameView extends JPanel {
 		initializeLevelSelectButton();
 	}
 
-	private ImageIcon getResizedIcon(String path, int width, int height) {
-		ImageIcon icon = new ImageIcon(path);
+	private ImageIcon getResizedIcon(URL url, int width, int height) {
+		ImageIcon icon = new ImageIcon(url);
 		Image img = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		return new ImageIcon(img);
 	}
@@ -204,12 +205,12 @@ public class GameView extends JPanel {
 
 		// 타이머 아이콘 그리기
 		if (timerIcon != null) {
-			g.drawImage(timerIcon, 730, 50, 70, 70, this);
+			g.drawImage(timerIcon.getImage(), 730, 50, 70, 70, this);
 		}
 
 		// 점수 별 그리기
 		if (scoreIcon != null) {
-			g.drawImage(scoreIcon, 450, 50, 60, 60, this);
+			g.drawImage(scoreIcon.getImage(), 450, 50, 60, 60, this);
 		}
 
 		// 타이머 및 점수 표시

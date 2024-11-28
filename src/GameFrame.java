@@ -99,7 +99,7 @@ public class GameFrame extends JFrame {
 		panel.setBackground(StyleManager.tutorialBackgroudColor); // 전체 배경색 설정
 
 		// 이미지 로드 및 크기 조정
-		ImageIcon originalIcon = new ImageIcon("images/deco/lock.png");
+		ImageIcon originalIcon = new ImageIcon(getClass().getClassLoader().getResource("lock.png"));
 		Image scaledImage = originalIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH); // 크기 조정
 		JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
 		imageLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT); // 가운데 정렬

@@ -6,5 +6,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="images/deco"/>
+	<classpathentry kind="src" path="images/bins"/>
+	<classpathentry kind="src" path="images/tools"/>
+	<classpathentry kind="src" path="images/items"/>
+	<classpathentry kind="src" path="sounds"/>
+	<classpathentry excluding="deco/|bins/|tools/|items/|deco/|bins/|tools/|items/" kind="src" path="images"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

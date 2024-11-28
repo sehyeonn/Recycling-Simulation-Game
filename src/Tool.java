@@ -12,7 +12,7 @@ public class Tool extends JLabel {
 	
 	public Tool(String name, String imagePath) {
 		this.name = name;
-		setIcon(new ImageIcon(imagePath));
+		setIcon(new ImageIcon(getClass().getClassLoader().getResource(imagePath)));
 		setSize(getPreferredSize());
 	}
 	

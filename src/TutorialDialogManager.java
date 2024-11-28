@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,15 +46,15 @@ public class TutorialDialogManager {
 
 		// 처음에만 레벨 다이얼로그를 띄운다
 		if (!isLevelDialogShown) {
-			showLevelDialog(level); // 처음에만 레벨 다이얼로그 표시
+			showLevelDialog(levelData); // 처음에만 레벨 다이얼로그 표시
 			isLevelDialogShown = true; // 이후부터 레벨 다이얼로그는 표시되지 않도록 설정
 		}
 
 		Item item = levelData.getItemTemplates().get(index);
-		ImageIcon itemIcon = new ImageIcon(item.getImagePath());
+		ImageIcon itemIcon = (ImageIcon) item.getIcon();
 
 		// 제목 이미지 로드 및 크기 조정
-		ImageIcon titleImageIcon = new ImageIcon("images/deco/tutorial.png");
+		ImageIcon titleImageIcon = new ImageIcon(getClass().getClassLoader().getResource("tutorial.png"));
 		Image titleImage = titleImageIcon.getImage();
 		int titleWidth = 300; // 원하는 너비
 		int titleHeight = 70; // 원하는 높이
@@ -72,7 +73,7 @@ public class TutorialDialogManager {
 		JLabel toolLabel = null;
 		if (Integer.parseInt(level) >= 3 && item instanceof ComplexItem) {
 			ComplexItem complexItem = (ComplexItem) item;
-			String toolImagePath = "images/tools/" + complexItem.getNecessaryTool() + ".png";
+			URL toolImagePath = getClass().getClassLoader().getResource(complexItem.getNecessaryTool() + ".png");
 			
 			message = complexItem.getTutorialMessage();
 
@@ -144,34 +145,10 @@ public class TutorialDialogManager {
 	}
 
 	// 레벨 설명 다이얼로그를 표시하는 메소드
-	private void showLevelDialog(String level) {
-		String dialogMessage = "";
-		String imagePath = "";
-		ImageIcon titleImageIcon = null;
-
-		// 레벨별 이미지 경로와 메시지 설정
-		switch (level) {
-		case "1":
-			titleImageIcon = new ImageIcon("images/deco/level1.png"); // 제목 이미지 경로
-			dialogMessage = "환영합니다, 분리배출 히어로!\r\n" + "첫 번째 임무는 기본 분리배출입니다.\r\n 주어진 아이템들을 올바른 분리배출함에 넣어보세요!";
-			imagePath = "images/deco/level1_image.png";
-			break;
-		case "2":
-			titleImageIcon = new ImageIcon("images/deco/level2.png");
-			dialogMessage = "잘하고 있어요! 이제 분리배출의 달인으로 한 단계 더 나아가 볼까요?\r\n"
-					+ "이번 레벨에서는 새로운 아이템과 분리배출함이 추가됩니다.\r\n 새로운 아이템을 올바르게 배출해 보세요!";
-			imagePath = "images/deco/level2_image.png";
-			break;
-		case "3":
-			titleImageIcon = new ImageIcon("images/deco/level3.png");
-			dialogMessage = "당신은 이제 분리배출 마스터가 될 준비가 되었습니다!\r\n" + "적절한 도구를 이용해\r\n 더 복잡한 분리배출을 완수해야 합니다. 도전하세요!";
-			imagePath = "images/deco/level3_image.png";
-			break;
-		default:
-			titleImageIcon = new ImageIcon("images/deco/level1.png"); // 기본 이미지
-			dialogMessage = "레벨 정보가 잘못되었습니다.";
-			break;
-		}
+	private void showLevelDialog(LevelData levelData) {
+		String dialogMessage = levelData.getMessage(); // 레벨 설명
+		ImageIcon titleImageIcon = new ImageIcon(getClass().getClassLoader().getResource("level" + levelData.getLevel() + ".png"));
+		ImageIcon levelImageIcon = new ImageIcon(getClass().getClassLoader().getResource("level" + levelData.getLevel() + "_image.png"));
 
 		// 레벨 메세지 메서드 디자인
 		JDialog levelDialog = new JDialog(gameFrame, true);
@@ -193,20 +170,17 @@ public class TutorialDialogManager {
 		levelDialog.add(titleLabel, gbc);
 
 		// 이미지 레이블
-		if (!imagePath.isEmpty()) {
-			ImageIcon levelImageIcon = new ImageIcon(imagePath);
-			Image img = levelImageIcon.getImage();
+		Image img = levelImageIcon.getImage();
 
-			// 이미지 크기 조정 (원하는 크기로)
-			int newWidth = 300; // 원하는 너비
-			int newHeight = 250; // 원하는 높이
-			Image scaledImage = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+		// 이미지 크기 조정 (원하는 크기로)
+		int newWidth = 300; // 원하는 너비
+		int newHeight = 250; // 원하는 높이
+		Image scaledImage = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
 
-			JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
-			gbc.gridx = 0;
-			gbc.gridy = 1;
-			levelDialog.add(imageLabel, gbc);
-		}
+		JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		levelDialog.add(imageLabel, gbc);
 
 		// 메시지 레이블
 		JLabel messageLabel = new JLabel(

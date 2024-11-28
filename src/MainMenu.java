@@ -37,7 +37,7 @@ public class MainMenu extends JPanel {
 		CenterPanel() {
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // 세로 방향으로 정렬
 
-			ImageIcon guideIcon = new ImageIcon("images/deco/trashEarth3.png");
+			ImageIcon guideIcon = new ImageIcon(getClass().getClassLoader().getResource("trashEarth3.png"));
 			JLabel imageLabel = new JLabel(guideIcon);
 			imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // X축으로 중앙 정렬
 			add(Box.createVerticalStrut(50));
@@ -81,7 +81,7 @@ public class MainMenu extends JPanel {
 		WestPanel() {
 			setLayout(null);
 
-			ImageIcon icon = new ImageIcon("images/deco/click.png");
+			ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("click.png"));
 
 			JLabel label1 = new JLabel(" 자세한 분리배출 방법을 알고 싶다면?", icon, JLabel.LEFT);
 			label1.setVerticalTextPosition(JLabel.CENTER);
@@ -102,7 +102,7 @@ public class MainMenu extends JPanel {
 			label2.setBounds(15, 70, 500, 50);
 
 			// 레이블을 클릭하면 아래에 이미지 띄우기
-			ImageIcon image = new ImageIcon("images/deco/why.png");
+			ImageIcon image = new ImageIcon(getClass().getClassLoader().getResource("why.png"));
 			JLabel imageLabel = new JLabel(image);
 			JLabel textLabel = new JLabel("출처 - 환경부 분리배출 가이드라인");
 			textLabel.setFont(StyleManager.fontMidiumBold);
