@@ -91,6 +91,7 @@ public class MainMenu extends JPanel {
 			label1.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
+					SoundManager.playSound("click");
 					openWebPage("https://www.junggu.seoul.kr/content.do?cmsid=14189");
 				}
 			});
@@ -122,6 +123,7 @@ public class MainMenu extends JPanel {
 			label2.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
+					SoundManager.playSound("click");
 					popupImageScrollPane.setVisible(!popupImageScrollPane.isVisible());
 				}
 			});
