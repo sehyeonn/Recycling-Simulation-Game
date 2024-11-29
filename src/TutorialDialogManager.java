@@ -114,7 +114,7 @@ public class TutorialDialogManager {
 		// 아이템 다이얼로그
 		JDialog dialog = new JDialog(gameFrame, true);
 		dialog.setUndecorated(false);
-		dialog.setSize(750, 500);
+		dialog.setSize(750, 550);
 		dialog.setLocationRelativeTo(null); // 위치 선정
 		dialog.getContentPane().setBackground(StyleManager.tutorialBackgroudColor); // 다이얼로그 배경색 설정
 		dialog.getContentPane().setLayout(new BorderLayout());
